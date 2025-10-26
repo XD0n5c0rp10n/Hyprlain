@@ -1,5 +1,5 @@
 #!/bin/env bash
-GITSRC=$(dirname "$0")/src
+GITSRC=$(dirname "$0")
 source $(dirname "$0")/helper.sh
 
 downdependencies "$GITSRC/pacpkgs.lst" "$GITSRC/aurpkgs.lst"
