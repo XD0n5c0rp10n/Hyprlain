@@ -187,7 +187,6 @@ You can read more about how to help in the [contributing guide](./.github/CONTRI
 
 ## TODO
 - [ ] Change GTK showcase.png
-- [ ] Add GTK icons to install
 
-- [ ] Symlink install as default option
-- [ ] Performance mode (remove all processing-heavy styling from hyprland config)
+- Symlink install as default option
+- Performance mode (remove all processing-heavy styling from hyprland config)

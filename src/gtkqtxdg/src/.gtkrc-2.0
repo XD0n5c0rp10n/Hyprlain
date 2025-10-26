@@ -2,7 +2,7 @@
 # Any customization should be done in ~/.gtkrc-2.0.mine instead.
 
 gtk-theme-name="hyprlain"
-gtk-icon-theme-name="AdwaitaLegacy"
+gtk-icon-theme-name="hyprlaicons"
 gtk-font-name="AdwaitaMono Nerd Font 14"
 gtk-cursor-theme-name="Adwaita"
 gtk-cursor-theme-size=32

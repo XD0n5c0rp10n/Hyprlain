@@ -1,6 +1,6 @@
 [Icon Theme]
-Name=HyprlainIcons
-Comment=Icon Theme for Hyprlain
+Name=Hyprlaicons
+Comment=Hyprlain Icon Theme
 Example=folder
 Inherits=AdwaitaLegacy,hicolor
 Hidden=true
