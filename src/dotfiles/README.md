@@ -14,6 +14,11 @@ which, according to its [README](./src/audacious/lainampborders/readme.txt),
 was made by [MagicalEmi](mailto:MagicalEmi@aol.com)
 and edited by [Lain117](https://reddit.com/user/lain117).
 
+# GRUB
+![](https://github.com/uiriansan/LainGrubTheme/raw/main/wiki/preview.png)
+The installer includes [uiriansan](https://github.com/uiriansan)'s
+[LainGrubTheme](https://github.com/uiriansan/LainGrubTheme)
+
 # Firefox
 ![](./firefox.gif)
 

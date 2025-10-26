@@ -186,7 +186,8 @@ You can read more about how to help in the [contributing guide](./.github/CONTRI
 © [The authors and contributors](./.github/AUTHORS.md)
 
 ## TODO
-- [ ] [Replace](https://github.com/surajmandalcell/Gtk-Theming-Guide/blob/master/creating_gtk_themes.md)
-	[GTK's adwaita](./src/qtgtkxdg) with a custom theme and change showcase.png
+- [ ] Change GTK showcase.png
+- [ ] Add GTK icons to install
+
 - [ ] Symlink install as default option
 - [ ] Performance mode (remove all processing-heavy styling from hyprland config)

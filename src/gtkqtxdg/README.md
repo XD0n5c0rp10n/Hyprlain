@@ -5,5 +5,5 @@
 ## [‼️🚨⚠️ DISCLAIMER ⚠️🚨‼️](../../README.md)
 
 ## Credits
-The GTK theme is currently just the [adw-gtk3 theme](https://github.com/lassekongo83/adw-gtk3),
-it's just under a different name.
+The GTK theme is a libadwaita recolor by [gabe](https://github.com/uhm26),
+he recolored the theme using gradient and i ported it to the config files.

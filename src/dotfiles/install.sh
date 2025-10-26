@@ -19,4 +19,6 @@ DOTPROFILE_SHLINE="[[ -f ~/.profile ]] && . ~/.profile"
 sudo echo "$DOTPROFILE_SHLINE" >> "$HOME/.bashrc"
 sudo echo "$DOTPROFILE_SHLINE" >> "$HOME/.zshrc"
 
+git clone --depth=1 https://github.com/uiriansan/LainGrubTheme && cd LainGrubTheme && ./install.sh && ./patch_entries.sh
+
 echo "Hyprlain dotfiles installed succesfully."
