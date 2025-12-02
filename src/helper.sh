@@ -101,6 +101,6 @@ function downdependencies () {
 	PACPKGS=$1
 	AURPKGS=$2
 
-	sudo pacman -Syu --needed - < $PACPKGS || true
-	yay -Syu --needed - < $AURPKGS || true
+	sudo pacman -Syu --needed --noconfirm - < $PACPKGS || true
+	yay -Syu --needed --noconfirm - < $AURPKGS || true
 }
