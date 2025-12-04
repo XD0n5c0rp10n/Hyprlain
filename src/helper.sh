@@ -2,12 +2,32 @@
 # set -euox pipefail
 sudo echo
 
-if ! command -v yay &> /dev/null; then
-	echo "Yay not installed, follow this tutorial:"
-	echo "https://github.com/Jguer/yay#installation"
-	echo "Aborting."
-	exit 2
-fi
+function confirmnonroot() {
+	if [ "$EUID" -eq 0 ]; then
+			echo "Don't run the script as root! Aborting!"
+			exit 1
+	fi
+}
+
+function confirmonline() {
+	if ! ping -c 1 google.com &> /dev/null; then
+		echo "System is offline! Aborting!"
+		exit 1
+	fi
+}
+
+function getsudo() {
+	if ! command -v sudo &> /dev/null; then
+		su -c "pacman -Sy --needed sudo" root
+	fi
+	sudo echo
+}
+
+function getyay() {
+	if ! command -v yay &> /dev/null; then
+		sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
+	fi
+}
 
 BAKORDEL="backup"
 if ! [ $# -eq 0 ] && ! [ -z $1 ]; then
@@ -104,3 +124,8 @@ function downdependencies () {
 	sudo pacman -Syu --needed --noconfirm - < $PACPKGS || true
 	yay -Syu --needed --noconfirm - < $AURPKGS || true
 }
+
+confirmnonroot
+confirmonline
+getsudo
+getyay
