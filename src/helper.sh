@@ -1,6 +1,5 @@
 #!/bin/env bash
-# set -euox pipefail
-sudo echo
+# set -euxo pipefail
 
 function confirmnonroot() {
 	if [ "$EUID" -eq 0 ]; then
@@ -129,3 +128,4 @@ confirmnonroot
 confirmonline
 getsudo
 getyay
+sudo echo
