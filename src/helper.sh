@@ -28,6 +28,10 @@ function getyay() {
 	fi
 }
 
+function pause() {
+	echo "Press to continue..."; read
+}
+
 BAKORDEL="backup"
 if ! [ $# -eq 0 ] && ! [ -z $1 ]; then
 	case "$1" in
