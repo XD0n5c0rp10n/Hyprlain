@@ -128,4 +128,3 @@ confirmnonroot
 confirmonline
 getsudo
 getyay
-sudo echo
