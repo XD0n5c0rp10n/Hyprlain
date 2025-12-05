@@ -22,6 +22,7 @@ $GITSRC/spotify/install.sh $BAKORDEL
 $GITSRC/vesktop/install.sh $BAKORDEL
 
 echo "Hyprlain was succesfully installed!"
+echo "You can now safely delete the installation folder."
 
 echo "A restart is required for changes to take effect."
 ynprompt "Would you like to restart your device right now?"
