@@ -4,7 +4,8 @@ GITSRC=$(dirname "$0")/src
 
 downdependencies "$GITSRC/pacpkgs.lst" "$GITSRC/aurpkgs.lst"
 
-echo "!!! CLOSE THE SHELL AFTER INSTALLING ZSH BY TYPING 'exit' !!!"; read
+echo "!!! CLOSE THE SHELL AFTER INSTALLING ZSH BY TYPING 'exit' !!!"
+echo "Press to continue..."; read
 handleold "$BAKORDEL" "$HOME/.oh-my-zsh"
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
