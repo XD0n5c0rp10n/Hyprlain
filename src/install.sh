@@ -22,10 +22,6 @@ $GITSRC/spotify/install.sh $BAKORDEL
 $GITSRC/vesktop/install.sh $BAKORDEL
 
 echo "Hyprlain was succesfully installed!"
-ynprompt "Would you like to remove all installation files?"
-if [ $? == 0 ]; then
-	rm -r $(dirname "$0")
-fi
 
 echo "A restart is required for changes to take effect."
 ynprompt "Would you like to restart your device right now?"
