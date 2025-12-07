@@ -17,14 +17,16 @@ function confirmonline() {
 
 function getsudo() {
 	if ! command -v sudo &> /dev/null; then
-		su -c "pacman -Sy --needed sudo" root
+		echo "sudo not found, installing..."
+		su -c "pacman -Sy --noconfirm sudo" root
 	fi
 	sudo echo
 }
 
 function getyay() {
 	if ! command -v yay &> /dev/null; then
-		sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
+		echo "yay not found, installing..."
+		sudo pacman -S --needed --noconfirm git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
 	fi
 }
 
