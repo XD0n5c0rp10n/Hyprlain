@@ -124,8 +124,17 @@ function downdependencies () {
 	PACPKGS=$1
 	AURPKGS=$2
 
-	sudo pacman -Syu --needed --noconfirm - < $PACPKGS || true
-	yay -Syu --needed --noconfirm - < $AURPKGS || true
+	sudo pacman -Syu
+	while read -r pkg; do
+		[[ -z "$pkg" ]] && continue
+		( sudo pacman -S --needed --noconfirm "$pkg" || echo "ERROR! Skipping PACMAN package: $pkg" ) || true
+	done < "$PACPKGS"
+
+	yay -Syu
+	while read -r pkg; do
+		[[ -z "$pkg" ]] && continue
+		( yay -S --needed --noconfirm "$pkg" || echo "ERROR! Skipping AUR package: $pkg" ) || true
+	done < "$AURPKGS"
 }
 
 confirmnonroot
