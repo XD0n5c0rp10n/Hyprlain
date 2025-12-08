@@ -10,6 +10,7 @@ fi
 
 downdependencies "${GITSRC}/pacpkgs.lst" "${GITSRC}/aurpkgs.lst"
 
+getpkg zsh
 echo -e "${GREEN}When zsh opens a new shell, simply close it by typing 'exit'!${NOCOLOR}"; pause
 handleold "$BAKORDEL" "${HOME}/.oh-my-zsh"
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
