@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 THISDIR=$(dirname "$(realpath "$0")")
 GITSRC="${THISDIR}/src"
-source "${THISDIR}/../helper.sh"
+source "${THISDIR}/helper.sh"
 
 if ! helpersourced; then
 	echo -e "${RED}ERROR! Couldn't source necessary helper script.${NOCOLOR}"
