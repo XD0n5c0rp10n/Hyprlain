@@ -10,9 +10,9 @@ fi
 
 downdependencies "${GITSRC}/pacpkgs.lst" "${GITSRC}/aurpkgs.lst"
 
-echo -e "${GREEN}If zsh opens a new shell, simply close it by typing 'exit'!${NOCOLOR}"; pause
+echo -e "${GREEN}When zsh opens a new shell, simply close it by typing 'exit'!${NOCOLOR}"; pause
 handleold "$BAKORDEL" "${HOME}/.oh-my-zsh"
-RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 getpkg jq
 IMGPATH="${HOME}/.config/assets/media/imgs/icons/favicon_32px.png"
