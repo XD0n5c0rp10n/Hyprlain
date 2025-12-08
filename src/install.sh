@@ -1,22 +1,24 @@
 #!/usr/bin/env bash
 THISDIR=$(dirname "$(realpath "$0")")
-GITSRC=${THISDIR}/src
-source ${THISDIR}/../helper.sh
+GITSRC="${THISDIR}/src"
+source "${THISDIR}/../helper.sh"
 
 if ! helpersourced; then
-	echo -e "${RED}ERROR! Couldn't source necessary helper script.${NOCOLR}"
+	echo -e "${RED}ERROR! Couldn't source necessary helper script.${NOCOLOR}"
 	exit 1
 fi
 
 downdependencies "${GITSRC}/pacpkgs.lst" "${GITSRC}/aurpkgs.lst"
 
+getpkg wget
+getpkg unzip
 NERDFONT_DIR=/usr/local/share/fonts/ttf/AdwaitaMonoNerd
 NERDFONT_URL=https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/AdwaitaMono.zip
 NERDFONT_ZIP=$(basename -- "$NERDFONT_URL")
 handleold "$BAKORDEL" "$NERDFONT_DIR"
-sudo wget "$NERDFONT_URL" -P "${NERDFONT_DIR}/."
-sudo unzip "${NERDFONT_DIR}/${NERDFONT_ZIP}" -d "${NERDFONT_DIR}/."
-sudo rm "${NERDFONT_DIR}/${NERDFONT_ZIP}"
+sudo wget -O "$NERDFONT_URL" -P "$NERDFONT_DIR"
+sudo unzip -o "${NERDFONT_DIR}/${NERDFONT_ZIP}" -d "$NERDFONT_DIR"
+sudo rm -f "${NERDFONT_DIR}/${NERDFONT_ZIP}"
 
 # "${GITSRC}/albert/install.sh" "$BAKORDEL"
 "${GITSRC}/dotfiles/install.sh" "$BAKORDEL"
@@ -27,9 +29,9 @@ sudo rm "${NERDFONT_DIR}/${NERDFONT_ZIP}"
 "${GITSRC}/spotify/install.sh" "$BAKORDEL"
 "${GITSRC}/vesktop/install.sh" "$BAKORDEL"
 
-echo -e "${GREEN}Hyprlain was succesfully installed!"
+echo -e "${GREEN}Hyprlain was successfully installed!"
 echo -e "You can now delete the installation folder."
-echo -e "A restart is required for changes to take effect.${NOCOLR}"
+echo -e "A restart is required for changes to take effect.${NOCOLOR}"
 if confirmYn "Would you like to restart your device right now?"; then
 	reboot
 fi

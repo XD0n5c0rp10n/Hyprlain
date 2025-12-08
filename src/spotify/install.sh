@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 THISDIR=$(dirname "$(realpath "$0")")
-GITSRC=${THISDIR}/src
-source ${THISDIR}/../helper.sh
+GITSRC="${THISDIR}/src"
+source "${THISDIR}/../helper.sh"
 
 if ! helpersourced; then
-	echo -e "${RED}ERROR! Couldn't source necessary helper script.${NOCOLR}"
+	echo -e "${RED}ERROR! Couldn't source necessary helper script.${NOCOLOR}"
 	exit 1
 fi
 
@@ -15,7 +15,9 @@ echo "spotify_path = ${HOME}/.local/share/spotify-launcher/install/usr/share/spo
 substitute "$BAKORDEL" "${HOME}/.config/spicetify/Themes/Hyprlain" "${GITSRC}/Hyprlain"
 substitute "$BAKORDEL" "${HOME}/.config/spicetify/config-xpui.ini" "${GITSRC}/config-xpui.ini"
 
+getpkg spotify
 spotify&
+mkdir -p /opt/spotify/Apps
 sudo chmod a+wr /opt/spotify
 sudo chmod a+wr /opt/spotify/Apps -R
 mkdir -p "${HOME}/.config/spotify"
@@ -29,4 +31,4 @@ spicetify apply
 curl -fsSL https://raw.githubusercontent.com/spicetify/spicetify-marketplace/main/resources/install.sh | sh
 killall spotify
 
-echo -e "${GREEN}Spotify Hyprlain theme installed succesfully.${NOCOLR}"
+echo -e "${GREEN}Spotify Hyprlain theme installed successfully.${NOCOLOR}"

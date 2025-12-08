@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 THISDIR=$(dirname "$(realpath "$0")")
-GITSRC=${THISDIR}/src
-source ${THISDIR}/../helper.sh
+GITSRC="${THISDIR}/src"
+source "${THISDIR}/../helper.sh"
 
 if ! helpersourced; then
-	echo -e "${RED}ERROR! Couldn't source necessary helper script.${NOCOLR}"
+	echo -e "${RED}ERROR! Couldn't source necessary helper script.${NOCOLOR}"
 	exit 1
 fi
 
@@ -27,4 +27,4 @@ echo "color_scheme_path=${HOME}/.config/qt6ct/colors/Hyprlain.conf" >> "${GITSRC
 substitute "$BAKORDEL" "${HOME}/.config/qt6ct/qt6ct.conf" "${GITSRC}/qt6ct/qt6ct.conf"
 substitute "$BAKORDEL" "${HOME}/.config/qt6ct/colors/Hyprlain.conf" "${GITSRC}/qt6ct/Hyprlain.conf"
 
-echo -e "${GREEN}GTK & Qt Hyprlain themes installed succesfully.${NOCOLR}"
+echo -e "${GREEN}GTK & Qt Hyprlain themes installed successfully.${NOCOLOR}"

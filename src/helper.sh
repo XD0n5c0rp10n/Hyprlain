@@ -4,72 +4,44 @@
 RED="\033[0;31m"
 YELLOW="\033[0;33m"
 GREEN="\033[0;32m"
-NOCOLR="\033[0m"
+NOCOLOR="\033[0m"
 
 function confirmnonroot() {
 	if [ "$EUID" -eq 0 ]; then
-		echo -e "${RED}ERROR! Don't run the script as root, aborting.${NOCOLR}"
+		echo -e "${RED}ERROR! Don't run the script as root, aborting.${NOCOLOR}"
 		exit 1
 	fi
 }
 
 function confirmonline() {
 	if ! ping -c1 -w5 8.8.8.8 &> /dev/null; then
-		echo -e "${RED}ERROR! System is offline, aborting.${NOCOLR}"
+		echo -e "${RED}ERROR! System is offline, aborting.${NOCOLOR}"
 		exit 1
 	fi
 }
 
 function getsudo() {
 	if ! command -v sudo &> /dev/null; then
-		echo -e "${YELLOW}Command 'sudo' not found, installing...${NOCOLR}"
+		echo -e "${YELLOW}Command 'sudo' not found, installing...${NOCOLOR}"
 		su -c "pacman -S --noconfirm sudo"
 	fi
 }
 
 function getyay() {
 	if ! command -v yay &> /dev/null; then
-		echo -e "${YELLOW}Command 'yay' not found, installing...${NOCOLR}"
+		echo -e "${YELLOW}Command 'yay' not found, installing...${NOCOLOR}"
 		sudo pacman -S --needed --noconfirm git base-devel
 		git clone --depth=1 https://aur.archlinux.org/yay.git
 		cd yay
-		makepkg -si || { echo -e "${RED}ERROR! Couldn't build yay, aborting.${NOCOLR}"; exit 1; }
+		makepkg -si || { echo -e "${RED}ERROR! Couldn't build yay, aborting.${NOCOLOR}"; exit 1; }
 		cd ..
 		rm -rf yay
 	fi
 }
 
 function pause() {
-	echo -e "${GREEN}Press Enter to continue...${NOCOLR}"; read
+	echo -e "${GREEN}Press Enter to continue...${NOCOLOR}"; read -rp ""
 }
-
-BAKORDEL="backup"
-ARGUMENT="$1"
-if ! [ $# -eq 0 ] && ! [ -z "$ARGUMENT" ]; then
-	case "$ARGUMENT" in
-		"--no-preserve")
-			echo -e "${YELLOW}This option will delete all your previous configurations."
-			echo -e "It may also risk affecting other associated files.${NOCOLR}"
-			if confirmNy; then
-				BAKORDEL="--no-preserve"
-				echo -e "${YELLOW}Proceeding by deletion.${NOCOLR}"
-			else
-				echo -e "${GREEN}Aborting.${NOCOLR}"
-				exit 0
-			fi
-		;;
-
-		"backup");;
-
-		*)
-			echo -e "${RED}install.sh: unrecognized option '$ARGUMENT'${NOCOLR}"
-			echo
-			echo -e "${YELLOW}Usage: install.sh [OPTION]"
-			echo -e "Options:"
-			echo -e "  --no-preserve	Replace old files by deleting them.${NOCOLR}${RED}[DANGEROUS]${NOCOLR}"
-		;;
-	esac
-fi
 
 function _confirm() { # _confirm <TXT> <Y/N/X>
 	local PROMPT="$1"
@@ -88,7 +60,7 @@ function _confirm() { # _confirm <TXT> <Y/N/X>
 					return 1
 				fi
 				;;
-			* ) echo -e "${YELLOW}Please answer YES or NO.${NOCOLR}";;
+			* ) echo -e "${YELLOW}Please answer YES or NO.${NOCOLOR}";;
 		esac
 	done
 }
@@ -105,15 +77,43 @@ function confirmNy() { # confirmNy <TXT>
 	_confirm "$1 (y/N): " "N"
 }
 
+BAKORDEL="backup"
+ARGUMENT="$1"
+if ! [ $# -eq 0 ] && ! [ -z "$ARGUMENT" ]; then
+	case "$ARGUMENT" in
+		"--no-preserve")
+			echo -e "${YELLOW}This option will delete all your previous configurations."
+			echo -e "It may also risk affecting other associated files.${NOCOLOR}"
+			if confirmNy; then
+				BAKORDEL="--no-preserve"
+				echo -e "${YELLOW}Proceeding by deletion.${NOCOLOR}"
+			else
+				echo -e "${GREEN}Aborting.${NOCOLOR}"
+				exit 0
+			fi
+		;;
+
+		"backup");;
+
+		*)
+			echo -e "${RED}install.sh: unrecognized option '$ARGUMENT'${NOCOLOR}"
+			echo
+			echo -e "${YELLOW}Usage: install.sh [OPTION]"
+			echo -e "Options:"
+			echo -e "  --no-preserve	Replace old files by deleting them.${NOCOLOR}${RED}[DANGEROUS]${NOCOLOR}"
+		;;
+	esac
+fi
+
 getpkg() { # getpkg <CMD> [<PKG>]
 	local CMD="$1"
 	local PKG="${2:-$CMD}"
 
 	if ! command -v "$CMD" &> /dev/null; then
 		if [[ "$CMD" == "$PKG" ]]; then
-			echo -e "${YELLOW}Command '${CMD}' not found, installing...${NOCOLR}"
+			echo -e "${YELLOW}Command '${CMD}' not found, installing...${NOCOLOR}"
 		else
-			echo -e "${YELLOW}Command '${CMD}' not found, installing package '${PKG}'...${NOCOLR}"
+			echo -e "${YELLOW}Command '${CMD}' not found, installing package '${PKG}'...${NOCOLOR}"
 		fi
 		if pacman -Si "$PKG" &> /dev/null; then
 			sudo pacman -S --noconfirm "$PKG"
@@ -138,7 +138,7 @@ function handleold () {
 			;;
 
 		*)
-			echo -e "${RED}Unrecognized argument '$1' passed to handleold function.${NOCOLR}"
+			echo -e "${RED}Unrecognized argument '$1' passed to handleold function.${NOCOLOR}"
 			exit 254
 		;;
 	esac
