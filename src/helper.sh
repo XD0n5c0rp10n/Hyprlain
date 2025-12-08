@@ -115,10 +115,10 @@ getpkg() { # getpkg <CMD> [<PKG>]
 		else
 			echo -e "${YELLOW}Command '${CMD}' not found, installing package '${PKG}'...${NOCOLOR}"
 		fi
-		if pacman -Si "$PKG" &> /dev/null; then
+		if pacman -Si --needed --noconfirm "$PKG" &> /dev/null; then
 			sudo pacman -S --noconfirm "$PKG"
 		else
-			yay -S --noconfirm "$PKG"
+			yay -S --needed --noconfirm "$PKG"
 		fi
 	fi
 }

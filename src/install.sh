@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 THISDIR=$(dirname "$(realpath "$0")")
-GITSRC="${THISDIR}/src"
+GITSRC="${THISDIR}"
 source "${THISDIR}/helper.sh"
 
 if ! helpersourced; then
@@ -16,7 +16,7 @@ NERDFONT_DIR=/usr/local/share/fonts/ttf/AdwaitaMonoNerd
 NERDFONT_URL=https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/AdwaitaMono.zip
 NERDFONT_ZIP=$(basename -- "$NERDFONT_URL")
 handleold "$BAKORDEL" "$NERDFONT_DIR"
-sudo wget -O "$NERDFONT_URL" -P "$NERDFONT_DIR"
+sudo wget "$NERDFONT_URL" -P "$NERDFONT_DIR"
 sudo unzip -o "${NERDFONT_DIR}/${NERDFONT_ZIP}" -d "$NERDFONT_DIR"
 sudo rm -f "${NERDFONT_DIR}/${NERDFONT_ZIP}"
 
