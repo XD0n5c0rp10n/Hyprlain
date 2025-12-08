@@ -1,24 +1,29 @@
-#!/bin/env bash
-source $(dirname "$0")/../helper.sh
-GITSRC=$(dirname "$0")/src
+#!/usr/bin/env bash
+THISDIR=$(dirname "$(realpath "$0")")
+GITSRC=${THISDIR}/src
+source ${THISDIR}/../helper.sh
 
-echo "You might just want to keep these themes for the time in which you'll download their apps."
-ynprompt "Would you like to download every theme's relative application?"
-if [ $? == 0 ]; then
-	downdependencies "$GITSRC/pacpkgs.lst" "$GITSRC/aurpkgs.lst"
+if ! helpersourced; then
+	echo -e "${RED}ERROR! Couldn't source necessary helper script.${NOCOLR}"
+	exit 1
 fi
 
-substitute "$BAKORDEL" "$HOME/.local/share/audacious/Skins/lainampborders" "$GITSRC/audacious/lainampborders"
-echo "skin=$HOME/.local/share/audacious/Skins/lainampborders" >> "$GITSRC/audacious/config"
-substitute "$BAKORDEL" "$HOME/.config/audacious/config" "$GITSRC/audacious/config"
+echo -e "${YELLOW}You might just want to keep these themes for the time in which you'll download their apps.${NOCOLR}"
+if confirmYN "Would you like to download every theme's relative application?"; then
+	downdependencies "${GITSRC}/pacpkgs.lst" "${GITSRC}/aurpkgs.lst"
+fi
 
-echo "To install the Firefox theme, follow the README's instructions!"
+substitute "$BAKORDEL" "${HOME}/.local/share/audacious/Skins/lainampborders" "${GITSRC}/audacious/lainampborders"
+echo "skin=${HOME}/.local/share/audacious/Skins/lainampborders" >> "${GITSRC}/audacious/config"
+substitute "$BAKORDEL" "${HOME}/.config/audacious/config" "${GITSRC}/audacious/config"
 
-sudo cat "$GITSRC/.profile" >> "$HOME/.profile"
+echo -e "${YELLOW}To install the Firefox theme, follow the README's instructions!${NOCOLR}"
+
+sudo cat "${GITSRC}/.profile" >> "${HOME}/.profile"
 DOTPROFILE_SHLINE="[[ -f ~/.profile ]] && . ~/.profile"
-sudo echo "$DOTPROFILE_SHLINE" >> "$HOME/.bashrc"
-sudo echo "$DOTPROFILE_SHLINE" >> "$HOME/.zshrc"
+sudo echo "$DOTPROFILE_SHLINE" >> "${HOME}/.bashrc"
+sudo echo "$DOTPROFILE_SHLINE" >> "${HOME}/.zshrc"
 
 git clone --depth=1 https://github.com/uiriansan/LainGrubTheme && cd LainGrubTheme && ./install.sh && ./patch_entries.sh
 
-echo "Hyprlain dotfiles installed succesfully."
+echo -e "${GREEN}Hyprlain dotfiles installed succesfully.${NOCOLR}"

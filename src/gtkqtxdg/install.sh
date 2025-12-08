@@ -1,24 +1,30 @@
-#!/bin/env bash
-source $(dirname "$0")/../helper.sh
-GITSRC=$(dirname "$0")/src
+#!/usr/bin/env bash
+THISDIR=$(dirname "$(realpath "$0")")
+GITSRC=${THISDIR}/src
+source ${THISDIR}/../helper.sh
 
-downdependencies "$GITSRC/pacpkgs.lst" "$GITSRC/aurpkgs.lst"
+if ! helpersourced; then
+	echo -e "${RED}ERROR! Couldn't source necessary helper script.${NOCOLR}"
+	exit 1
+fi
 
-substitute "$BAKORDEL" "$HOME/.gtkrc-2.0" "$GITSRC/.gtkrc-2.0"
-substitute "$BAKORDEL" "$HOME/.config/nwg-look/config" "$GITSRC/nwg-look/config"
-substitute "$BAKORDEL" "$HOME/.config/gtk-3.0/settings.ini" "$GITSRC/gtk-3.0/settings.ini"
-substitute "$BAKORDEL" "$HOME/.config/gtk-4.0/settings.ini" "$GITSRC/gtk-4.0/settings.ini"
-substitute "$BAKORDEL" "/usr/share/themes/hyprlain" "$GITSRC/hyprlain"
-substitute "$BAKORDEL" "/usr/share/icons/hyprlaicons" "$GITSRC/hyprlaicons"
+downdependencies "${GITSRC}/pacpkgs.lst" "${GITSRC}/aurpkgs.lst"
 
-substitute "$BAKORDEL" "$HOME/.config/xdg-desktop-portal/hyprland-portals.conf" "$GITSRC/hyprland-portals.conf"
-substitute "$BAKORDEL" "$HOME/.config/xsettingsd.conf" "$GITSRC/xsettingsd.conf"
+substitute "$BAKORDEL" "${HOME}/.gtkrc-2.0" "${GITSRC}/.gtkrc-2.0"
+substitute "$BAKORDEL" "${HOME}/.config/nwg-look/config" "${GITSRC}/nwg-look/config"
+substitute "$BAKORDEL" "${HOME}/.config/gtk-3.0/settings.ini" "${GITSRC}/gtk-3.0/settings.ini"
+substitute "$BAKORDEL" "${HOME}/.config/gtk-4.0/settings.ini" "${GITSRC}/gtk-4.0/settings.ini"
+substitute "$BAKORDEL" "/usr/share/themes/hyprlain" "${GITSRC}/hyprlain"
+substitute "$BAKORDEL" "/usr/share/icons/hyprlaicons" "${GITSRC}/hyprlaicons"
 
-echo "color_scheme_path=$HOME/.config/qt5ct/colors/Hyprlain.conf" >> "$GITSRC/qt5ct/qt5ct.conf"
-substitute "$BAKORDEL" "$HOME/.config/qt5ct/qt5ct.conf" "$GITSRC/qt5ct/qt5ct.conf"
-substitute "$BAKORDEL" "$HOME/.config/qt5ct/colors/Hyprlain.conf" "$GITSRC/qt5ct/Hyprlain.conf"
-echo "color_scheme_path=$HOME/.config/qt6ct/colors/Hyprlain.conf" >> "$GITSRC/qt6ct/qt6ct.conf"
-substitute "$BAKORDEL" "$HOME/.config/qt6ct/qt6ct.conf" "$GITSRC/qt6ct/qt6ct.conf"
-substitute "$BAKORDEL" "$HOME/.config/qt6ct/colors/Hyprlain.conf" "$GITSRC/qt6ct/Hyprlain.conf"
+substitute "$BAKORDEL" "${HOME}/.config/xdg-desktop-portal/hyprland-portals.conf" "${GITSRC}/hyprland-portals.conf"
+substitute "$BAKORDEL" "${HOME}/.config/xsettingsd.conf" "${GITSRC}/xsettingsd.conf"
 
-echo "GTK & Qt Hyprlain themes installed succesfully."
+echo "color_scheme_path=${HOME}/.config/qt5ct/colors/Hyprlain.conf" >> "${GITSRC}/qt5ct/qt5ct.conf"
+substitute "$BAKORDEL" "${HOME}/.config/qt5ct/qt5ct.conf" "${GITSRC}/qt5ct/qt5ct.conf"
+substitute "$BAKORDEL" "${HOME}/.config/qt5ct/colors/Hyprlain.conf" "${GITSRC}/qt5ct/Hyprlain.conf"
+echo "color_scheme_path=${HOME}/.config/qt6ct/colors/Hyprlain.conf" >> "${GITSRC}/qt6ct/qt6ct.conf"
+substitute "$BAKORDEL" "${HOME}/.config/qt6ct/qt6ct.conf" "${GITSRC}/qt6ct/qt6ct.conf"
+substitute "$BAKORDEL" "${HOME}/.config/qt6ct/colors/Hyprlain.conf" "${GITSRC}/qt6ct/Hyprlain.conf"
+
+echo -e "${GREEN}GTK & Qt Hyprlain themes installed succesfully.${NOCOLR}"

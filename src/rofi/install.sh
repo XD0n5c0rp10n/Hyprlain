@@ -1,10 +1,16 @@
-#!/bin/env bash
-source $(dirname "$0")/../helper.sh
-GITSRC=$(dirname "$0")/src
+#!/usr/bin/env bash
+THISDIR=$(dirname "$(realpath "$0")")
+GITSRC=${THISDIR}/src
+source ${THISDIR}/../helper.sh
 
-downdependencies "$GITSRC/pacpkgs.lst" "$GITSRC/aurpkgs.lst"
+if ! helpersourced; then
+	echo -e "${RED}ERROR! Couldn't source necessary helper script.${NOCOLR}"
+	exit 1
+fi
 
-substitute "$BAKORDEL" "$HOME/.config/rofi/themes/Hyprlain.rasi" "$GITSRC/Hyprlain.rasi"
-substitute "$BAKORDEL" "$HOME/.config/rofi/config.rasi" "$GITSRC/config.rasi"
+downdependencies "${GITSRC}/pacpkgs.lst" "${GITSRC}/aurpkgs.lst"
 
-echo "Rofi Hyprlain theme installed succesfully."
+substitute "$BAKORDEL" "${HOME}/.config/rofi/themes/Hyprlain.rasi" "${GITSRC}/Hyprlain.rasi"
+substitute "$BAKORDEL" "${HOME}/.config/rofi/config.rasi" "${GITSRC}/config.rasi"
+
+echo -e "${GREEN}Rofi Hyprlain theme installed succesfully.${NOCOLR}"

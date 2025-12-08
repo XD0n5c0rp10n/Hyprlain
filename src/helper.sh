@@ -1,62 +1,60 @@
-#!/bin/env bash
+#!/usr/bin/env bash
 # set -euxo pipefail
+
+RED="\033[0;31m"
+YELLOW="\033[0;33m"
+GREEN="\033[0;32m"
+NOCOLR="\033[0m"
 
 function confirmnonroot() {
 	if [ "$EUID" -eq 0 ]; then
-			echo "Don't run the script as root! Aborting!"
-			exit 1
+		echo -e "${RED}ERROR! Don't run the script as root, aborting.${NOCOLR}"
+		exit 1
 	fi
 }
 
 function confirmonline() {
-	if ! ping -c 1 google.com &> /dev/null; then
-		echo "System is offline! Aborting!"
+	if ! ping -c1 -w5 8.8.8.8 &> /dev/null; then
+		echo -e "${RED}ERROR! System is offline, aborting.${NOCOLR}"
 		exit 1
 	fi
 }
 
 function getsudo() {
 	if ! command -v sudo &> /dev/null; then
-		echo "sudo not found, installing..."
-		su -c "pacman -Sy --noconfirm sudo" root
+		echo -e "${YELLOW}Command 'sudo' not found, installing...${NOCOLR}"
+		su -c "pacman -S --noconfirm sudo"
 	fi
-	sudo echo
 }
 
 function getyay() {
 	if ! command -v yay &> /dev/null; then
-		echo "yay not found, installing..."
-		sudo pacman -S --needed --noconfirm git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
+		echo -e "${YELLOW}Command 'yay' not found, installing...${NOCOLR}"
+		sudo pacman -S --needed --noconfirm git base-devel
+		git clone --depth=1 https://aur.archlinux.org/yay.git
+		cd yay
+		makepkg -si || { echo -e "${RED}ERROR! Couldn't build yay, aborting.${NOCOLR}"; exit 1; }
+		cd ..
+		rm -rf yay
 	fi
 }
 
 function pause() {
-	echo "Press to continue..."; read
+	echo -e "${GREEN}Press Enter to continue...${NOCOLR}"; read
 }
 
 BAKORDEL="backup"
-if ! [ $# -eq 0 ] && ! [ -z $1 ]; then
-	case "$1" in
+ARGUMENT="$1"
+if ! [ $# -eq 0 ] && ! [ -z "$ARGUMENT" ]; then
+	case "$ARGUMENT" in
 		"--no-preserve")
-			echo "This option will delete all your previous configurations."
-			echo "It may also risk affecting other associated files."
-			read -p "Are you sure you want to proceed? [y/N]: " yn
-			case $yn in
-				[Yy]*)
-					RES=0
-					;;
-				[Nn]*)
-					RES=1
-					;;
-				*)
-					RES=1
-					;;
-			esac
-			if [ $RES == 0 ]; then
+			echo -e "${YELLOW}This option will delete all your previous configurations."
+			echo -e "It may also risk affecting other associated files.${NOCOLR}"
+			if confirmNy; then
 				BAKORDEL="--no-preserve"
-				echo "Proceeding by deletion."
-			elif [ $RES == 1 ]; then
-				echo "Aborting."
+				echo -e "${YELLOW}Proceeding by deletion.${NOCOLR}"
+			else
+				echo -e "${GREEN}Aborting.${NOCOLR}"
 				exit 0
 			fi
 		;;
@@ -64,48 +62,83 @@ if ! [ $# -eq 0 ] && ! [ -z $1 ]; then
 		"backup");;
 
 		*)
-			echo "install.sh: unrecognized option '$1'"
+			echo -e "${RED}install.sh: unrecognized option '$ARGUMENT'${NOCOLR}"
 			echo
-			echo "Usage: install.sh [OPTION]"
-			echo "Options:"
-			echo "  --no-preserve	Replace old files by deleting them. [DANGEROUS]"
+			echo -e "${YELLOW}Usage: install.sh [OPTION]"
+			echo -e "Options:"
+			echo -e "  --no-preserve	Replace old files by deleting them.${NOCOLR}${RED}[DANGEROUS]${NOCOLR}"
 		;;
 	esac
 fi
 
-function ynprompt () {
+function _confirm() { # _confirm <TXT> <Y/N/X>
+	local PROMPT="$1"
+	local DEFAULT="$2"
+	local CONFIRMATION
+
 	while true; do
-		read -p "$* [Y/n]: " yn
-		case $yn in
-			[Yy]*)
-				return 0
+		read -rp "$PROMPT" CONFIRMATION
+		case "$CONFIRMATION" in
+			[Yy]* ) return 0;;
+			[Nn]* ) return 1;;
+			"" )
+				if [[ "$DEFAULT" == "Y" ]]; then
+					return 0
+				elif [[ "$DEFAULT" == "N" ]]; then
+					return 1
+				fi
 				;;
-			[Nn]*)
-				return 1
-				;;
-			*)
-				return 0
-				;;
+			* ) echo -e "${YELLOW}Please answer YES or NO.${NOCOLR}";;
 		esac
 	done
 }
 
+function confirmYN() { # confirmYN <TXT>
+	_confirm "$1 (Yes/No): " "X"
+}
+
+function confirmYn() { # confirmYn <TXT>
+	_confirm "$1 (Y/n): " "Y"
+}
+
+function confirmNy() { # confirmNy <TXT>
+	_confirm "$1 (y/N): " "N"
+}
+
+getpkg() { # getpkg <CMD> [<PKG>]
+	local CMD="$1"
+	local PKG="${2:-$CMD}"
+
+	if ! command -v "$CMD" &> /dev/null; then
+		if [[ "$CMD" == "$PKG" ]]; then
+			echo -e "${YELLOW}Command '${CMD}' not found, installing...${NOCOLR}"
+		else
+			echo -e "${YELLOW}Command '${CMD}' not found, installing package '${PKG}'...${NOCOLR}"
+		fi
+		if pacman -Si "$PKG" &> /dev/null; then
+			sudo pacman -S --noconfirm "$PKG"
+		else
+			yay -S --noconfirm "$PKG"
+		fi
+	fi
+}
+
 function handleold () {
-	ACTOPTION=$1
-	DIRFILE=$2
+	ACTOPTION="$1"
+	DIRFILE="$2"
 
 	case "$ACTOPTION" in
 		"--no-preserve")
-			sudo rm -r $DIRFILE || true
+			sudo rm -r "$DIRFILE" || true
 			;;
 
 		"backup")
-			sudo rm -r $DIRFILE.hyprlainbak || true
-			sudo mv $DIRFILE $DIRFILE.hyprlainbak || true
+			sudo rm -r "${DIRFILE}.hyprlainbak" || true
+			sudo mv "$DIRFILE" "${DIRFILE}.hyprlainbak" || true
 			;;
 
 		*)
-			echo "Unrecognized argument \"$1\" passed to handleold function."
+			echo -e "${RED}Unrecognized argument '$1' passed to handleold function.${NOCOLR}"
 			exit 254
 		;;
 	esac
@@ -114,17 +147,17 @@ function handleold () {
 }
 
 function substitute () {
-	ACTOPTION=$1
-	DIRFILE=$2
-	GITFILE=$3
+	ACTOPTION="$1"
+	DIRFILE="$2"
+	GITFILE="$3"
 
 	handleold "$ACTOPTION" "$DIRFILE"
-	sudo cp -r $GITFILE $DIRFILE
+	sudo cp -r "$GITFILE" "$DIRFILE"
 }
 
 function downdependencies () {
-	PACPKGS=$1
-	AURPKGS=$2
+	PACPKGS="$1"
+	AURPKGS="$2"
 
 	sudo pacman -Syu
 	while read -r pkg; do
@@ -137,6 +170,10 @@ function downdependencies () {
 		[[ -z "$pkg" ]] && continue
 		( yay -S --needed --noconfirm "$pkg" || echo "ERROR! Skipping AUR package: $pkg" ) || true
 	done < "$AURPKGS"
+}
+
+function helpersourced() {
+	return 0
 }
 
 confirmnonroot

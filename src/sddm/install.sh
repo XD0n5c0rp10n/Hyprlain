@@ -1,11 +1,17 @@
-#!/bin/env bash
-source $(dirname "$0")/../helper.sh
-GITSRC=$(dirname "$0")/src
+#!/usr/bin/env bash
+THISDIR=$(dirname "$(realpath "$0")")
+GITSRC=${THISDIR}/src
+source ${THISDIR}/../helper.sh
 
-downdependencies "$GITSRC/pacpkgs.lst" "$GITSRC/aurpkgs.lst"
+if ! helpersourced; then
+	echo -e "${RED}ERROR! Couldn't source necessary helper script.${NOCOLR}"
+	exit 1
+fi
 
-substitute "$BAKORDEL" "/etc/sddm.conf" "$GITSRC/sddm.conf"
-substitute "$BAKORDEL" "/usr/share/sddm/themes/Hyprlain" "$GITSRC/Hyprlain"
+downdependencies "${GITSRC}/pacpkgs.lst" "${GITSRC}/aurpkgs.lst"
 
-echo "SDDM Hyprlain theme installed succesfully. Test with the following command:"
-echo "sddm-greeter --test-mode --theme /usr/share/sddm/themes/Hyprlain"
+substitute "$BAKORDEL" "/etc/sddm.conf" "${GITSRC}/sddm.conf"
+substitute "$BAKORDEL" "/usr/share/sddm/themes/Hyprlain" "${GITSRC}/Hyprlain"
+
+echo -e "${GREEN}SDDM Hyprlain theme installed succesfully. Test with the following command:"
+echo -e "sddm-greeter --test-mode --theme /usr/share/sddm/themes/Hyprlain${NOCOLR}"

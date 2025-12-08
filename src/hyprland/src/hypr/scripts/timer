@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/usr/bin/env bash
 
 $ALARMAUDIOFILE_PATH="~/.config/assets/media/audi/PhantomStartingScene.mp3"
 
