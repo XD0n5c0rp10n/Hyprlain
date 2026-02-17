@@ -15,12 +15,6 @@ echo -e "${GREEN}When zsh opens a new shell, simply close it by typing 'exit'!${
 handleold "$BAKORDEL" "${HOME}/.oh-my-zsh"
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-getpkg jq
-IMGPATH="${HOME}/.config/assets/media/imgs/icons/favicon_32px.png"
-WAYBARCONF="${GITSRC}/waybar/config.jsonc"
-CONTENT=$(jq --arg IMGPATH "$IMGPATH" '.image.path = $IMGPATH' "$WAYBARCONF")
-echo "$CONTENT" > "$WAYBARCONF"
-
 substitute "$BAKORDEL" "${HOME}/.config/wlogout/style.css" "${GITSRC}/wlogout/style.css"
 substitute "$BAKORDEL" "${HOME}/.config/waybar/config.jsonc" "${GITSRC}/waybar/config.jsonc"
 substitute "$BAKORDEL" "${HOME}/.config/waybar/power_menu.xml" "${GITSRC}/waybar/power_menu.xml"
