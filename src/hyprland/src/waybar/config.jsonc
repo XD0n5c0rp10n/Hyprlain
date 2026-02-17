@@ -20,7 +20,7 @@
 	"group/hiddentray": {
 		"orientation": "horizontal",
 		"modules": [
-			"image",
+			"custom/expand",
 			"cpu",
 			"temperature",
 			"memory",
@@ -123,11 +123,12 @@
 		],
 		"on-click-right": "missioncenter"
 	},
-	"image": {
-		"path": "/home/USERNAME/.config/assets/media/imgs/icons/favicon_32px.png",
-		"size": 16,
-		"tooltip": true,
-		"tooltip-format": "W I R E D"
+
+	"custom/expand": {
+		"format": " ", 
+		"tooltip": false
+	},
+
 	},
 	"cpu": {
 		"format": "",
