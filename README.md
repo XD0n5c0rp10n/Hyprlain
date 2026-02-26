@@ -21,7 +21,7 @@
 <img alt="PayPal" src="https://img.shields.io/badge/donate-blue?style=for-the-badge&logo=PayPal&logoColor=C1B48E&logoSize=auto&labelColor=000000&color=CE7688">
 </a>
 <br><br>
-A complete Hyprland configuration for Arch Linux inspired by Serial Experiments Lain.
+A complete Hyprland rice for Arch Linux inspired by Serial Experiments Lain.
 <br>
 <sup>* Most themes and configurations are compatible with non-hyprland installations.</sup>
 <br>
@@ -86,11 +86,11 @@ so if you're trying to install them on an X11 DE, you might want to check their 
 
 ### Scripts
 <div align="center">
-<strong>⚠️ <a href="https://github.com/Jguer/yay#installation">YAY</a> IS REQUIRED TO INSTALL AUR PACKAGES VIA THE INSTALL SCRIPTS ⚠️</strong><br>
+<strong>⚠️ <a href="https://github.com/Jguer/yay#installation">YAY</a> IS USED TO INSTALL AUR PACKAGES VIA THE INSTALL SCRIPTS ⚠️</strong><br>
 <strong><sup>IF YOU'D RATHER USE ANOTHER AUR HELPER, YOU'RE GOING TO HAVE TO MODIFY THE HELPER SCRIPT</sup></strong>
 </div>
 
-If you don't want to run the `install.sh` script manually, paste and run this into your terminal to run an all-in-one command:
+If you don't want to run the `install.sh` script manually, on an **Arch Linux** install with the **Hyprland** profile selected during `archinstall`, paste and run this into your terminal to run an all-in-one command:
 ```sh
 sudo pacman -Syu --needed git && git clone https://github.com/Ascaniolamp/Hyprlain.git && cd Hyprlain/src && ./install.sh
 ```
