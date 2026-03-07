@@ -13,9 +13,6 @@
 <a href="https://liberapay.com/Ascaniolamp/donate">
 <img alt="Liberapay" src="https://img.shields.io/badge/donate-blue?style=for-the-badge&logo=liberapay&logoColor=C1B48E&logoSize=auto&labelColor=000000&color=CE7688">
 </a>
-<a href="https://paypal.me/AscanioNarcisi">
-<img alt="PayPal" src="https://img.shields.io/badge/donate-blue?style=for-the-badge&logo=PayPal&logoColor=C1B48E&logoSize=auto&labelColor=000000&color=CE7688">
-</a>
 </a>
 <a href="https://paypal.com/donate/?hosted_button_id=EED5LRPSLVP4Q">
 <img alt="PayPal" src="https://img.shields.io/badge/donate-blue?style=for-the-badge&logo=PayPal&logoColor=C1B48E&logoSize=auto&labelColor=000000&color=CE7688">
